@@ -34,10 +34,12 @@ namespace NNIpp {
   /// shifts the rows FIRST and then the columns.
   ///
   /// Templates:
+  ///
   ///   Derived   The derived type of the Eigen matrix/array (e.g. derived from MatrixXd)
   ///   Index     The derived type of the index variable (e.g. int )
   ///
   /// Inputs:
+  ///
   ///   A         M by N Eigen matrix/array
   ///   a         An index variable that determines the row shift
   ///   b         An index variable that determines the column shift

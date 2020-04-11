@@ -27,6 +27,8 @@
 
 #include <Eigen/Core>
 
+#include "NNIParam.h"
+
 namespace NNIpp {
 
   ///
@@ -65,8 +67,17 @@ namespace NNIpp {
       // (#P+#GP) by #V matrix. Holds the x-gradient data of the input and ghost points
       Matrix m_DataGradX;
 
-      // (#P+#GP) by matrix. Holds the y-gradient data of the input and ghost points
+      // (#P+#GP) by #V matrix. Holds the y-gradient data of the input and ghost points
       Matrix m_DataGradY;
+
+      // (#P+#GP) by #V matrix. Holds the xx-Hessian data of the input and ghost points
+      Matrix m_DataHessXX;
+
+      // (#P+#GP) by #V matrix. Holds the xy-Hessian data of the input and ghost points
+      Matrix m_DataHessXY;
+
+      // (#P+#GP) by #V matrix. Holds the yy-Hessian data of the input and ghost points
+      Matrix m_DataHessYY;
 
       // #F by 1 vector. Holds the 'Delta' parameter of each face of the extended
       // Delaunay triangulation.  Equal to twice the signed area of each face
@@ -93,36 +104,11 @@ namespace NNIpp {
       ///   Xp            #P by 1 list of data point x-coordinates
       ///   Yp            #P by 1 list of data point y-coordinates
       ///   Vp            #P by #V matrix of data point function values
-      ///   DVx           #P by #V matrix of analytic x-gradient values at data points
-      ///   DVy           #P by #V matrix of analytic y-gradient values at data points
-      ///   GPn           The number of ghost points to create
-      ///   GPr           The radius increase factor of the ghost point circle
-      ///                 from the circumcircle of the data point bounding box
-      ///   dispInterp    Boolean display interpolation progress
+      ///   param         An 'NNIParam' class containing the rest of the
+      ///                 parameters needed to construct the interpolant
       ///
       NaturalNeighborInterpolant( const Vector &Xp, const Vector &Yp,
-          const Matrix &Vp, const Matrix &DVx, const Matrix &DVy,
-          int GPn, Scalar GPr, bool dispInterp );
-
-      ///
-      /// Constructor with discrete gradient generation
-      ///
-      /// Inputs:
-      ///
-      ///   Xp            #P by 1 list of data point x-coordinates
-      ///   Yp            #P by 1 list of data point y-coordinates
-      ///   Vp            #P by #V matrix of data point function values
-      ///   DVx           #P by #V matrix of analytic x-gradient values at data points
-      ///   DVy           #P by #V matrix of analytic y-gradient values at data points
-      ///   GPn           The number of ghost points to create
-      ///   GPr           The radius increase factor of the ghost point circle
-      ///                 from the circumcircle of the data point bounding box
-      ///   dispGrad      Boolean display gradient generation progress
-      ///   dispInterp    Boolean display interpolation progress
-      ///
-      NaturalNeighborInterpolant( const Vector &Xp, const Vector &Yp,
-          const Matrix &Vp, int GPn, Scalar GPr,
-          bool dispGrad, bool dispInterp );
+          const Matrix &Vp, const NNIParam<Scalar> &param );
 
       /// Interpolate function at a set of query points using Sibson's
       /// C^1 continuous method for scattered data interpolation
@@ -219,6 +205,6 @@ namespace NNIpp {
 
   };
 
-} // namespace NNIpp
+}
 
-#endif // _NATURAL_NEIGHBOR_INTERPOLANT_H_
+#endif

@@ -19,13 +19,7 @@
 #ifndef _SORT_POLYGON_CCW_H_
 #define _SORT_POLYGON_CCW_H_
 
-#include <cassert>
-#include <cmath>
-#include <iostream>
-
 #include <Eigen/Core>
-
-#include <igl/sort_angles.h>
 
 namespace NNIpp {
 
@@ -49,30 +43,8 @@ namespace NNIpp {
   void sortPolygonCCW(
       const Eigen::Matrix<Scalar, Eigen::Dynamic, 2> &poly,
       Eigen::Matrix<Scalar, Eigen::Dynamic, 2> &ccwPoly,
-      Eigen::VectorXi &order ) {
+      Eigen::VectorXi &order );
 
-    // The number of vertices in the polygon
-    const std::size_t numRows = poly.rows();
+}
 
-    // Calculate the center of mass of the vertex coordinates
-    Eigen::Matrix<Scalar, 1, 2> COMRow;
-    COMRow << ( poly.col(0).mean() ), ( poly.col(1).mean() );
-
-    Eigen::Matrix<Scalar, Eigen::Dynamic, 2> COM = COMRow.replicate( numRows, 1 );
-
-    // Shift the polygon vertices so that the center of mass is at the origin
-    Eigen::Matrix<Scalar, Eigen::Dynamic, 2> polyShift = poly - COM;
-
-    // Sort the angles of the shifted vertices in ascending order
-    igl::sort_angles( polyShift, order );
-
-    // Re-order the polygon vertices
-    for ( int i = 0; i < numRows; i++ ) {
-      ccwPoly.row(i) = poly.row( order(i) );
-    }
-
-  };
-
-} // namespace NNIpp
-
-#endif // _SORT_POLYGON_CCW_H
+#endif

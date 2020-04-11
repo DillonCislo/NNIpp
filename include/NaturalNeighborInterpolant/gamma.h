@@ -16,16 +16,17 @@
  *
  */
 
-#ifndef _TRICIRCUMCENTER_H_
-#define _TRICIRCUMCENTER_H_
+#ifndef _GAMMA_H_
+#define _GAMMA_H_
 
 #include <Eigen/Core>
 
 namespace NNIpp {
 
   ///
-  /// A vectorized calculation of the circumcenters of a set of
-  /// planar triangles
+  /// Calculate the 'Gamma' parameter from (Hiyoshi, 2008). Used to
+  /// calculate the natural neighbor coordinates of a query point
+  /// Gamma(v1, v2, v3, v4) does not have a simple geometric interpretation
   ///
   /// Templates:
   ///
@@ -33,18 +34,18 @@ namespace NNIpp {
   ///
   /// Inputs:
   ///
-  ///   X     #T by 3 list of triangle vertex x-coordinates
-  ///   Y     #T by 3 list of triangle vertex y-coordinates
+  ///   X         #N by 4 list of x-coordinates
+  ///   Y         #N by 4 list of y-coordinates
   ///
   /// Outputs:
   ///
-  ///   CC    #T by 2 list of circumcenter coordinates
+  ///   G         #N by 1 list of 'Gamma' values
   ///
   template <typename Scalar>
-  void triCircumcenter(
-      const Eigen::Matrix<Scalar, Eigen::Dynamic, 3> &X,
-      const Eigen::Matrix<Scalar, Eigen::Dynamic, 3> &Y,
-      Eigen::Matrix<Scalar, Eigen::Dynamic, 2> &CC );
+  void gamma(
+      const Eigen::Matrix<Scalar, Eigen::Dynamic, 4> &X,
+      const Eigen::Matrix<Scalar, Eigen::Dynamic, 4> &Y,
+      Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &G );
 
 }
 

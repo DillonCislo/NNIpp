@@ -25,7 +25,7 @@
 //
 // Constructor for interpolation parameter class
 //
-NNIpp::NNIParam::NNIParam() {
+NNIpp::NNIParam::NNIParam(int nPts) : numPoints(nPts) {
 
   ghostMethod = NNI_GHOST_POINTS_EDGE;
   GPe = Scalar(1.0);
@@ -45,6 +45,8 @@ NNIpp::NNIParam::NNIParam() {
 //
 inline void NNIpp::NNIParam::checkParam() const {
 
+  if (numPoints <= 0)
+    throw std::invalid_argument("Number of points must be positive");
   if ( ghostMethod < NNI_GHOST_POINTS_CUSTOM ||
       ghostMethod > NNI_GHOST_POINTS_EDGE )
     throw std::invalid_argument("Unsupported ghost point construction method");

@@ -70,10 +70,16 @@ namespace NNIpp {
 
     public:
 
+      // The number of scattered data points supplied
+      int numPoints;
+
       // The method used for determining the position of the ghost points
       // used for natural neighbor extrapolation. The choice of method
       // will also dictate the type of gradient estimation used
       int ghostMethod;
+
+      // A set of user defined custom ghost point coordinates
+      Eigen::Matrix<Scalar, Eigen::Dynamic, 2> customGhostPoints;
 
       // The edge length increase factor for edge-based ghost point construction
       Scalar GPe;
@@ -124,7 +130,7 @@ namespace NNIpp {
       ///
       /// Constructor for interpolation parameter class
       ///
-      NNIParam();
+      NNIParam(int nPts);
 
       ///
       /// Check the validity of the interpolation parameters
@@ -133,7 +139,7 @@ namespace NNIpp {
 
   };
 
-} // namespace NNIpp
+}
 
-#endif // _NNI_PARAM_H_
+#endif
 

@@ -28,7 +28,7 @@ void NNIpp::gamma(
     const Eigen::Matrix<Scalar, Eigen::Dynamic, 4> &Y,
     Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &G ) {
 
-  typename Eigen::Array<Scalar, Eigen::Dynamic, 1> Vector;
+  typedef Eigen::Array<Scalar, Eigen::Dynamic, 1> Vector;
 
   // Check that the input arguments are properly sized
   assert( X.rows() == Y.rows() );

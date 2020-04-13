@@ -29,7 +29,7 @@ void NNIpp::triCircumcenter(
     const Eigen::Matrix<Scalar, Eigen::Dynamic, 3> &Y,
     Eigen::Matrix<Scalar, Eigen::Dynamic, 2> &CC ) {
 
-  typename Eigen::Array<Scalar, Eigen::Dynamic, 1> Vector;
+  typedef Eigen::Array<Scalar, Eigen::Dynamic, 1> Vector;
 
   // Check that the input arguments are properly sized
   assert( (X.rows() == Y.rows()) && (X.cols() == Y.cols()) );
@@ -73,13 +73,13 @@ void NNIpp::triCircumcenter(
 
   // The numerator for the y-coordinates
   Vector yNum = x3 * x12S + x2 * x31S + x1 * x23S +
-                x3y12 * y12P + x2y31 * y31P + x1y23 * y23_P;
+                x3y12 * y12_P + x2y31 * y31_P + x1y23 * y23_P;
 
   // The denominator for both coordinates
   Vector denom = Scalar(2.0) * ( x3y12 + x2y31 + x1y23 );
 
   // Calculate circumcenter coordinates
-  Eigen::Array<Scalar, Eigen::Dynamic, 2> CCArr( X.rows() );
+  Eigen::Array<Scalar, Eigen::Dynamic, 2> CCArr( X.rows(), 2 );
   CCArr << (xNum / denom), (yNum / denom);
 
   // Format output

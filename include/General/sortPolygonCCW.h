@@ -39,7 +39,7 @@ namespace NNIpp {
   ///   order     #P by 1 list of indices into the old ordering
   ///             that produces the new ordering
   ///
-  template <Scalar>
+  template <typename Scalar>
   void sortPolygonCCW(
       const Eigen::Matrix<Scalar, Eigen::Dynamic, 2> &poly,
       Eigen::Matrix<Scalar, Eigen::Dynamic, 2> &ccwPoly,

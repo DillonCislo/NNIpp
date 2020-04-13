@@ -192,15 +192,14 @@ namespace NNIpp {
     private:
 
       ///
-      /// Generate discrete gradients. Gradients at a data point are defined
-      /// to be the first-order coefficients of a third-order Taylor polynomial
-      /// fit to the third-degree natural neighborhood of that same data point.
+      /// Generate ghost points
       ///
-      /// Inputs:
+      void generateGhostPoints( const NNIParam<Scalar> &param );
+
       ///
-      ///   numPoints   The number of data points supplied (excludes ghost points)
+      /// Generate discrete gradients
       ///
-      void generateGradients( int numPoints );
+      void generateGradients( const NNIParam<Scalar> &param );
 
   };
 

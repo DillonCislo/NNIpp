@@ -16,13 +16,15 @@
  *
  */
 
+#include "sortPolygonCCW.h"
+
 #include <cassert>
 #include <cmath>
 #include <iostream>
 
-#include <igl/sort_angles.h>
+#include <igl/sort.h>
 
-template <Scalar>
+template <typename Scalar>
 void NNIpp::sortPolygonCCW(
     const Eigen::Matrix<Scalar, Eigen::Dynamic, 2> &poly,
     Eigen::Matrix<Scalar, Eigen::Dynamic, 2> &ccwPoly,
@@ -40,8 +42,15 @@ void NNIpp::sortPolygonCCW(
   // Shift the polygon vertices so that the center of mass is at the origin
   Eigen::Matrix<Scalar, Eigen::Dynamic, 2> polyShift = poly - COM;
 
+  // Calculate the phase angles of the shifted vertices
+  Eigen::Matrix<Scalar, Eigen::Dynamic, 1> angles(numRows, 1);
+  for (int i = 0;  i < numRows; i++ ) {
+    angles(i) = (Scalar) std::atan2( (double) polyShift(i,1), (double) polyShift(i,0) );
+  }
+
   // Sort the angles of the shifted vertices in ascending order
-  igl::sort_angles( polyShift, order );
+  Eigen::Matrix<Scalar, Eigen::Dynamic, 1> sortedAngles(numRows, 1);
+  igl::sort( angles, 1, true, sortedAngles, order );
 
   // Re-order the polygon vertices
   for ( int i = 0; i < numRows; i++ ) {

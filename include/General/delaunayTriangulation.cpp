@@ -28,7 +28,7 @@
 #include <CGAL/Triangulation_vertex_base_with_info_2.h>
 
 template <typename Scalar>
-void NNIpp::delaunayTriangulation(
+NNI_INLINE void NNIpp::delaunayTriangulation(
     const Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &X,
     const Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &Y,
     Eigen::Matrix<int, Eigen::Dynamic, 3> &F ) {

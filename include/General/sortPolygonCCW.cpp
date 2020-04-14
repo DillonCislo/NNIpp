@@ -25,7 +25,7 @@
 #include <igl/sort.h>
 
 template <typename Scalar>
-void NNIpp::sortPolygonCCW(
+NNI_INLINE void NNIpp::sortPolygonCCW(
     const Eigen::Matrix<Scalar, Eigen::Dynamic, 2> &poly,
     Eigen::Matrix<Scalar, Eigen::Dynamic, 2> &ccwPoly,
     Eigen::VectorXi &order ) {

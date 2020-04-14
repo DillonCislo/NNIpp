@@ -19,6 +19,7 @@
 #ifndef _SORT_POLYGON_CCW_H_
 #define _SORT_POLYGON_CCW_H_
 
+#include "nniInline.h"
 #include <Eigen/Core>
 
 namespace NNIpp {
@@ -40,11 +41,15 @@ namespace NNIpp {
   ///             that produces the new ordering
   ///
   template <typename Scalar>
-  void sortPolygonCCW(
+  NNI_INLINE void sortPolygonCCW(
       const Eigen::Matrix<Scalar, Eigen::Dynamic, 2> &poly,
       Eigen::Matrix<Scalar, Eigen::Dynamic, 2> &ccwPoly,
       Eigen::VectorXi &order );
 
 }
+
+#ifndef NNI_STATIC_LIBRARY
+#  include "sortPolygonCCW.cpp"
+#endif
 
 #endif

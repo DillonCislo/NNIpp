@@ -19,6 +19,7 @@
 #ifndef _DELAUNAY_TRIANGULATION_H_
 #define _DELAUNAY_TRIANGULATION_H_
 
+#include "nniInline.h"
 #include <Eigen/Core>
 
 namespace NNIpp {
@@ -43,11 +44,15 @@ namespace NNIpp {
   ///   F     #F by 3 face connectivity list
   ///
   template <typename Scalar>
-  void delaunayTriangulation(
+  NNI_INLINE void delaunayTriangulation(
       const Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &X,
       const Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &Y,
       Eigen::Matrix<int, Eigen::Dynamic, 3> &F );
 
 }
+
+#ifndef NNI_STATIC_LIBRARY
+#  include "delaunayTriangulation.cpp"
+#endif
 
 #endif

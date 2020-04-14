@@ -19,6 +19,7 @@
 #ifndef _TRICIRCUMCENTER_H_
 #define _TRICIRCUMCENTER_H_
 
+#include "nniInline.h"
 #include <Eigen/Core>
 
 namespace NNIpp {
@@ -41,11 +42,15 @@ namespace NNIpp {
   ///   CC    #T by 2 list of circumcenter coordinates
   ///
   template <typename Scalar>
-  void triCircumcenter(
+  NNI_INLINE void triCircumcenter(
       const Eigen::Matrix<Scalar, Eigen::Dynamic, 3> &X,
       const Eigen::Matrix<Scalar, Eigen::Dynamic, 3> &Y,
       Eigen::Matrix<Scalar, Eigen::Dynamic, 2> &CC );
 
 }
+
+#ifndef NNI_STATIC_LIBRARY
+#  include "triCircumcenter.cpp"
+#endif
 
 #endif

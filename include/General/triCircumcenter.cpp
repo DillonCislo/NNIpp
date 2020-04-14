@@ -24,7 +24,7 @@
 
 
 template <typename Scalar>
-void NNIpp::triCircumcenter(
+NNI_INLINE void NNIpp::triCircumcenter(
     const Eigen::Matrix<Scalar, Eigen::Dynamic, 3> &X,
     const Eigen::Matrix<Scalar, Eigen::Dynamic, 3> &Y,
     Eigen::Matrix<Scalar, Eigen::Dynamic, 2> &CC ) {
@@ -86,3 +86,7 @@ void NNIpp::triCircumcenter(
   CC = CCArr.matrix();
 
 };
+
+// TODO: Add explicit template instantiation
+#ifdef NNI_STATIC_LIBRARY
+#endif

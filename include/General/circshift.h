@@ -19,6 +19,7 @@
 #ifndef _CIRCSHIFT_H_
 #define _CIRCSHIFT_H_
 
+#include "nniInline.h"
 #include <Eigen/Core>
 
 namespace NNIpp {
@@ -44,11 +45,15 @@ namespace NNIpp {
   ///   B         The shifted version of A
   ///
   template <typename Derived, typename Index>
-  void circshift(
+  NNI_INLINE void circshift(
       Eigen::DenseBase<Derived> &B,
       const Eigen::DenseBase<Derived> &A,
       Index a, Index b = 0 );
 
 }
+
+#ifndef NNI_STATIC_LIBRARY
+#include "circshift.cpp"
+#endif
 
 #endif

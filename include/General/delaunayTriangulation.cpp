@@ -72,3 +72,6 @@ void NNIpp::delaunayTriangulation(
 
 };
 
+// TODO: Add explicit template instantiation
+#ifdef NNI_STATIC_LIBRARY
+#endif

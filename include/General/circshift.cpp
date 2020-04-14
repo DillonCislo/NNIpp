@@ -23,7 +23,7 @@
 #include <iostream>
 
 template <typename Derived, typename Index>
-void NNIpp::circshift(
+NNI_INLINE void NNIpp::circshift(
     Eigen::DenseBase<Derived> &B,
     const Eigen::DenseBase<Derived> &A,
     Index a, Index b = 0 ) {
@@ -92,3 +92,7 @@ void NNIpp::circshift(
   }
 
 };
+
+// TODO: Add explicit template instantiaion
+#ifdef NNI_STATIC_LIBRARY
+#endif

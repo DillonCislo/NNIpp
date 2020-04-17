@@ -26,12 +26,11 @@ template <typename Derived, typename Index>
 NNI_INLINE void NNIpp::circshift(
     Eigen::DenseBase<Derived> &B,
     const Eigen::DenseBase<Derived> &A,
-    Index a, Index b = 0 ) {
+    Index a, Index b ) {
 
-  // Check that the input arguments are properly sized
   Index rows = A.rows();
   Index cols = A.cols();
-  assert( ( rows == B.rows() ) && ( cols == B.cols() ) );
+  B = Eigen::DenseBase<Derived>::Zero( rows, cols );
 
   // Find the sign of the shift variables
   int sgnA = ( Index(0) < a ) - ( a < Index(0) );

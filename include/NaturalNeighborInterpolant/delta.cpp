@@ -23,7 +23,7 @@
 #include <iostream>
 
 template <typename Scalar>
-void NNIpp::delta(
+NNI_INLINE void NNIpp::delta(
     const Eigen::Matrix<Scalar, Eigen::Dynamic, 3> &X,
     const Eigen::Matrix<Scalar, Eigen::Dynamic, 3> &Y,
     Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &D ) {
@@ -50,3 +50,7 @@ void NNIpp::delta(
   D = Darr.matrix();
 
 };
+
+// TODO: Add explicit template instantiation
+#ifdef NNI_STATIC_LIBRARY
+#endif

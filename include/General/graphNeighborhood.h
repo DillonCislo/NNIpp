@@ -44,7 +44,7 @@ namespace NNIpp {
   ///  NN     #V by 1 vector of neighborhoods for each vertex
   ///
   template <typename Index>
-  NNI_INLINE void graphNeighborhood( int N,
+  NNI_INLINE void graphNeighborhood( const int N,
       const Eigen::Matrix<Index, Eigen::Dynamic, 3> &F,
       std::vector<std::vector<Index> > &NN );
 

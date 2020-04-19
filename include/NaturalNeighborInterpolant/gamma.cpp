@@ -23,7 +23,7 @@
 #include <iostream>
 
 template <typename Scalar>
-void NNIpp::gamma(
+NNI_INLINE void NNIpp::gamma(
     const Eigen::Matrix<Scalar, Eigen::Dynamic, 4> &X,
     const Eigen::Matrix<Scalar, Eigen::Dynamic, 4> &Y,
     Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &G ) {
@@ -85,3 +85,7 @@ void NNIpp::gamma(
   G = GArr.matrix();
 
 };
+
+// TODO: Add explicit template instantiation
+#ifdef NNI_STATIC_LIBRARY
+#endif

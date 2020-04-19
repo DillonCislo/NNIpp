@@ -19,6 +19,7 @@
 #ifndef _DELTA_H_
 #define _DELTA_H_
 
+#include "../General/nniInline.h"
 #include <Eigen/Core>
 
 namespace NNIpp {
@@ -42,12 +43,16 @@ namespace NNIpp {
   ///   D         #N by 1 list of 'Delta' values
   ///
   template <typename Scalar>
-  void delta(
+  NNI_INLINE void delta(
       const Eigen::Matrix<Scalar, Eigen::Dynamic, 3> &X,
       const Eigen::Matrix<Scalar, Eigen::Dynamic, 3> &Y,
       Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &D );
 
 }
+
+#ifndef NNI_STATIC_LIBRARY
+#  include "delta.cpp"
+#endif
 
 #endif
 

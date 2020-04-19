@@ -25,7 +25,8 @@
 //
 // Constructor for interpolation parameter class
 //
-NNIpp::NNIParam::NNIParam(int nPts) : numPoints(nPts) {
+template <typename Scalar>
+NNIpp::NNIParam<Scalar>::NNIParam(int nPts) : numPoints(nPts) {
 
   ghostMethod = NNI_GHOST_POINTS_EDGE;
   GPe = Scalar(1.0);
@@ -43,7 +44,8 @@ NNIpp::NNIParam::NNIParam(int nPts) : numPoints(nPts) {
 //
 // Check the validity of the interpolation parameters
 //
-inline void NNIpp::NNIParam::checkParam() const {
+template <typename Scalar>
+NNI_INLINE void NNIpp::NNIParam<Scalar>::checkParam() const {
 
   if (numPoints <= 0)
     throw std::invalid_argument("Number of points must be positive");
@@ -63,3 +65,7 @@ inline void NNIpp::NNIParam::checkParam() const {
     throw std::invalid_argument("'interAlpha' must lie in the range [0,1]");
 
 };
+
+// TODO: Add explicit template instantiations
+#ifdef NNI_STATIC_LIBRARY
+#endif

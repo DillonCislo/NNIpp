@@ -19,14 +19,10 @@
 #ifndef _NATURAL_NEIGHBOR_INTERPOLANT_H_
 #define _NATURAL_NEIGHBOR_INTERPOLANT_H_
 
-#include <cassert>
-#include <stdexcept>
-#include <iostream>
+#include "../General/nniInline.h"
+
 #include <vector>
-#include <pair>
-
 #include <Eigen/Core>
-
 #include "NNIParam.h"
 
 namespace NNIpp {
@@ -44,7 +40,7 @@ namespace NNIpp {
   template <typename Scalar>
   class NaturalNeighborInterpolant {
 
-    private:
+    public:
 
       typedef Eigen::Matrix<Scalar, Eigen::Dynamic, 1> Vector;
       typedef Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> Matrix;
@@ -64,6 +60,18 @@ namespace NNIpp {
       // Delaunay triangulation
       Eigen::Matrix<int, Eigen::Dynamic, 2> m_Edges;
 
+      // #F by 2 matrix. Holds the (x,y)-coordinates of the circumcenter
+      // of each face of the extended triangulation
+      Eigen::Matrix<Scalar, Eigen::Dynamic, 2> m_FCC;
+
+      // #F by 1 vector. Holds the 'Delta' parameter of each face of the extended
+      // Delaunay triangulation.  Equal to twice the signed area of each face
+      Vector m_fDelta;
+
+      // #CP by 2 matrix.  Holds the coordinates of the convex hull of the extended
+      // Delaunay triangulation
+      Eigen::Matrix<Scalar, Eigen::Dynamic, 2> m_ConvexHull;
+
       // (#P+#GP) by #V matrix. Holds the x-gradient data of the input and ghost points
       Matrix m_DataGradX;
 
@@ -79,24 +87,16 @@ namespace NNIpp {
       // (#P+#GP) by #V matrix. Holds the yy-Hessian data of the input and ghost points
       Matrix m_DataHessYY;
 
-      // #F by 1 vector. Holds the 'Delta' parameter of each face of the extended
-      // Delaunay triangulation.  Equal to twice the signed area of each face
-      Vector m_fDelta;
-
-      // #GP by 2 matrix.  Holds the coordinates of the convex hull of the extended
-      // Delaunay triangulation
-      Eigen::Matrix<Scalar, Eigen::Dynamic, 2> m_ConvexHull;
-
       // Display progress towards estimating discrete gradients
       bool m_dispGrad;
 
       // Display progress towards interpolating values
       bool m_dispInterp;
 
-    public:
+  public:
 
       ///
-      /// Constructor with user supplied analytic gradient data
+      /// Default constructor
       ///
       /// Inputs:
       ///
@@ -194,15 +194,39 @@ namespace NNIpp {
       ///
       /// Generate ghost points
       ///
-      void generateGhostPoints( const NNIParam<Scalar> &param );
+      /// Inputs:
+      ///
+      ///   Xp            #P by 1 list of data point x-coordinates
+      ///   Yp            #P by 1 list of data point y-coordinates
+      ///   param         An 'NNIParam' class containing the rest of the
+      ///                 parameters needed to construct the interpolant
+      ///
+      /// Outputs:
+      ///
+      ///   GPx           #GP by 1 list of ghost point x-coordinates
+      ///   GPy           #GP by 1 list of ghost point y-coordinates
+      ///
+      NNI_INLINE void generateGhostPoints(
+          const Vector &Xp, const Vector &Yp,
+          const NNIParam<Scalar> &param,
+          Vector &GPx, Vector &GPy );
 
       ///
       /// Generate discrete gradients
       ///
-      void generateGradients( const NNIParam<Scalar> &param );
+      /// Inputs:
+      ///
+      ///   param         An 'NNIParam' class containing the rest of the
+      ///                 parameters needed to construct the interpolant
+      ///
+      NNI_INLINE void generateGradients( const NNIParam<Scalar> &param );
 
   };
 
 }
+
+#ifndef NNI_STATIC_LIBRARY
+#  include "NaturalNeighborInterpolant.cpp"
+#endif
 
 #endif

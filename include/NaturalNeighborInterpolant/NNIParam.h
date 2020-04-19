@@ -19,6 +19,7 @@
 #ifndef _NNI_PARAM_H_
 #define _NNI_PARAM_H_
 
+#include "../General/nniInline.h"
 #include <Eigen/Core>
 
 namespace NNIpp {
@@ -135,11 +136,15 @@ namespace NNIpp {
       ///
       /// Check the validity of the interpolation parameters
       ///
-      inline void checkParam() const;
+      NNI_INLINE void checkParam() const;
 
   };
 
 }
+
+#ifndef NNI_STATIC_LIBRARY
+#  include "NNIParam.cpp"
+#endif
 
 #endif
 

@@ -16,8 +16,8 @@
  *
  */
 
-#ifndef _GAMMA_H_
-#define _GAMMA_H_
+#ifndef _GHOST_POINTS_CIRCLE_H_
+#define _GHOST_POINTS_CIRCLE_H_
 
 #include "../General/nniInline.h"
 #include <Eigen/Core>
@@ -25,9 +25,9 @@
 namespace NNIpp {
 
   ///
-  /// Calculate the 'Gamma' parameter from (Hiyoshi, 2008). Used to
-  /// calculate the natural neighbor coordinates of a query point
-  /// Gamma(v1, v2, v3, v4) does not have a simple geometric interpretation
+  /// Generate the ghost points used for natural neighbor extrapolation by
+  /// constructing the dense circumcircle of the bounding box of the input
+  /// scattered data points
   ///
   /// Templates:
   ///
@@ -35,23 +35,28 @@ namespace NNIpp {
   ///
   /// Inputs:
   ///
-  ///   X         #N by 4 list of x-coordinates
-  ///   Y         #N by 4 list of y-coordinates
+  ///   Xp        #P by 1 list of data point x-coordinates
+  ///   Yp        #P by 1 list of data point y-coordinates
+  ///   param     An 'NNIParam' class containing the rest of the parameters
+  ///             needed to construct the interpolant
   ///
   /// Outputs:
   ///
-  ///   G         #N by 1 list of 'Gamma' values
+  ///   GPx       #GP by 1 list of ghost point x-coordinates
+  ///   GPy       #GP by 1 list of ghost point y-coordinates
   ///
   template <typename Scalar>
-  NNI_INLINE void gamma(
-      const Eigen::Matrix<Scalar, Eigen::Dynamic, 4> &X,
-      const Eigen::Matrix<Scalar, Eigen::Dynamic, 4> &Y,
-      Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &G );
+  NNI_INLINE void ghostPointsCircle(
+      const Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &Xp,
+      const Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &Yp,
+      const NNIParam<Scalar> &param,
+      Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &GPx,
+      Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &GPy );
 
 }
 
 #ifndef NNI_STATIC_LIBRARY
-#  include "gamma.cpp"
+#  include "ghostPointsCircle.cpp"
 #endif
 
 #endif

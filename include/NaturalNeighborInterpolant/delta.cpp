@@ -26,7 +26,7 @@ template <typename Scalar>
 NNI_INLINE void NNIpp::delta(
     const Eigen::Matrix<Scalar, Eigen::Dynamic, 3> &X,
     const Eigen::Matrix<Scalar, Eigen::Dynamic, 3> &Y,
-    Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &D ) {
+    Eigen::Array<Scalar, Eigen::Dynamic, 1> &D ) {
 
   typedef Eigen::Array<Scalar, Eigen::Dynamic, 1> Vector;
 
@@ -45,9 +45,7 @@ NNI_INLINE void NNIpp::delta(
   Vector y3 = Y.col(2).array();
 
   // Calculate 'Delta' parameter
-  Vector Darr = x3 * ( y1 - y2 ) + x1 * ( y2 - y3 ) + x2 * ( y3 - y1 );
-
-  D = Darr.matrix();
+  D = x3 * ( y1 - y2 ) + x1 * ( y2 - y3 ) + x2 * ( y3 - y1 );
 
 };
 

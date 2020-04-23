@@ -20,6 +20,7 @@
 #define _GAMMA_H_
 
 #include "../General/nniInline.h"
+#include "NaturalNeighborInterpolant.h"
 #include <Eigen/Core>
 
 namespace NNIpp {
@@ -46,7 +47,7 @@ namespace NNIpp {
   NNI_INLINE void gamma(
       const Eigen::Matrix<Scalar, Eigen::Dynamic, 4> &X,
       const Eigen::Matrix<Scalar, Eigen::Dynamic, 4> &Y,
-      Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &G );
+      Eigen::Array<Scalar, Eigen::Dynamic, 1> &G );
 
 }
 

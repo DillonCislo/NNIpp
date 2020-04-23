@@ -74,6 +74,9 @@ namespace NNIpp {
       // The number of scattered data points supplied
       int numPoints;
 
+      // The number of variables per data point
+      int numVals;
+
       // The method used for determining the position of the ghost points
       // used for natural neighbor extrapolation. The choice of method
       // will also dictate the type of gradient estimation used
@@ -131,7 +134,7 @@ namespace NNIpp {
       ///
       /// Constructor for interpolation parameter class
       ///
-      NNIParam(int nPts);
+      NNIParam(int nPts, int nVals);
 
       ///
       /// Check the validity of the interpolation parameters

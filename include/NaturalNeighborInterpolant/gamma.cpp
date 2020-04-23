@@ -26,7 +26,7 @@ template <typename Scalar>
 NNI_INLINE void NNIpp::gamma(
     const Eigen::Matrix<Scalar, Eigen::Dynamic, 4> &X,
     const Eigen::Matrix<Scalar, Eigen::Dynamic, 4> &Y,
-    Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &G ) {
+    Eigen::Array<Scalar, Eigen::Dynamic, 1> &G ) {
 
   typedef Eigen::Array<Scalar, Eigen::Dynamic, 1> Vector;
 
@@ -79,10 +79,8 @@ NNI_INLINE void NNIpp::gamma(
   Vector c4S = x1y3y2 + x2y1y3 + x3y2y1;
 
   // Construct the 'Gamma' vector
-  Vector GArr = c1S * ( x1S + y1S ) + c2S * ( x2S + y2S ) +
-                c3S * ( x3S + y3S ) + c4S * ( x4S + y4S );
-
-  G = GArr.matrix();
+  G = c1S * ( x1S + y1S ) + c2S * ( x2S + y2S ) + 
+    c3S * ( x3S + y3S ) + c4S * ( x4S + y4S );
 
 };
 

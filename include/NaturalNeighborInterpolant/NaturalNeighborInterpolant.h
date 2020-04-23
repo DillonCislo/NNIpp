@@ -44,6 +44,8 @@ namespace NNIpp {
 
       typedef Eigen::Matrix<Scalar, Eigen::Dynamic, 1> Vector;
       typedef Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> Matrix;
+      typedef Eigen::Array<Scalar, Eigen::Dynamic, 1> ArrayVec;
+      typedef Eigen::Array<Scalar, Eigen::Dynamic, Eigen::Dynamic> Array;
 
       // (#P+#GP) by #V matrix. Holds the function values of the scattered
       // data points and the ghost points
@@ -60,13 +62,25 @@ namespace NNIpp {
       // Delaunay triangulation
       Eigen::Matrix<int, Eigen::Dynamic, 2> m_Edges;
 
+      // #F by 3 matrix. Holds the x-coordinates of each vertex in each face
+      // of the extended triangulation
+      Eigen::Matrix<Scalar, Eigen::Dynamic, 3> m_FaceVertexX;
+
+      // #F by 3 matrix. Holds the y-coordinates of each vertex in each face
+      // of the extended triangulation
+      Eigen::Matrix<Scalar, Eigen::Dynamic, 3> m_FaceVertexY;
+
       // #F by 2 matrix. Holds the (x,y)-coordinates of the circumcenter
       // of each face of the extended triangulation
       Eigen::Matrix<Scalar, Eigen::Dynamic, 2> m_FCC;
 
       // #F by 1 vector. Holds the 'Delta' parameter of each face of the extended
       // Delaunay triangulation.  Equal to twice the signed area of each face
-      Vector m_fDelta;
+      ArrayVec m_fDelta;
+
+      // #F by 4 matrix. Holds precomputed data needed to calculate the 'Gamma'
+      // parameter for each face of the extended triangulation given a query point
+      Eigen::Array<Scalar, Eigen::Dynamic, 4> m_fGamma;
 
       // #CP by 2 matrix.  Holds the coordinates of the convex hull of the extended
       // Delaunay triangulation
@@ -189,6 +203,22 @@ namespace NNIpp {
           std::vector<Eigen::Matrix<Scalar, Eigen::Dynamic, 2> > &uVC,
           Vector &uA );
 
+      ///
+      /// Calculate the 'Gamma' parameter from (Hiyoshi, 2008). Used to
+      /// calculate the natural neighbor coordinates of a query point
+      /// Gamma(v1, v2, v3, v4) does not have a simple geometric interpretation
+      ///
+      /// Inputs:
+      ///
+      ///   X   X-coordinate of query point
+      ///   Y   Y-coordinate of query point
+      ///
+      /// Outputs:
+      ///
+      ///   G   #F by 1 list of 'Gamma' values
+      ///
+      NNI_INLINE void gamma( const Scalar X, const Scalar Y, ArrayVec &G );
+
     private:
 
       ///
@@ -220,6 +250,22 @@ namespace NNIpp {
       ///                 parameters needed to construct the interpolant
       ///
       NNI_INLINE void generateGradients( const NNIParam<Scalar> &param );
+
+      ///
+      /// Generate values/derivatives for ghost points
+      ///
+      /// Inputs:
+      ///
+      ///   param         An 'NNIParam' class containing the rest of the
+      ///                 parameters needed to construct the interpolant
+      ///
+      NNI_INLINE void ghostPointValueHandling( const NNIParam<Scalar> &param );
+
+      ///
+      /// Precompute data for calculating the 'Gamma'
+      /// parameter on each face of the extended triangulation
+      ///
+      NNI_INLINE void precomputeGamma();
 
   };
 

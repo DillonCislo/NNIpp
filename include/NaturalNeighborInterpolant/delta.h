@@ -46,7 +46,7 @@ namespace NNIpp {
   NNI_INLINE void delta(
       const Eigen::Matrix<Scalar, Eigen::Dynamic, 3> &X,
       const Eigen::Matrix<Scalar, Eigen::Dynamic, 3> &Y,
-      Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &D );
+      Eigen::Array<Scalar, Eigen::Dynamic, 1> &D );
 
 }
 

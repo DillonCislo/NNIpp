@@ -26,7 +26,7 @@
 // Constructor for interpolation parameter class
 //
 template <typename Scalar>
-NNIpp::NNIParam<Scalar>::NNIParam(int nPts) : numPoints(nPts) {
+NNIpp::NNIParam<Scalar>::NNIParam(int nPts, int nVals) : numPoints(nPts), numVals(nVals) {
 
   ghostMethod = NNI_GHOST_POINTS_EDGE;
   GPe = Scalar(1.0);
@@ -37,7 +37,7 @@ NNIpp::NNIParam<Scalar>::NNIParam(int nPts) : numPoints(nPts) {
   dispGrad = true;
   dispInterp = true;
   gradientSupplied = false;
-  gradientSupplied = false;
+  hessianSupplied = false;
 
 };
 
@@ -49,6 +49,8 @@ NNI_INLINE void NNIpp::NNIParam<Scalar>::checkParam() const {
 
   if (numPoints <= 0)
     throw std::invalid_argument("Number of points must be positive");
+  if (numVals <= 0)
+    throw std::invalid_argument("Number of values must be positive");
   if ( ghostMethod < NNI_GHOST_POINTS_CUSTOM ||
       ghostMethod > NNI_GHOST_POINTS_EDGE )
     throw std::invalid_argument("Unsupported ghost point construction method");

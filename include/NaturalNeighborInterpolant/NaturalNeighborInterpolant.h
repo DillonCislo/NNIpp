@@ -24,6 +24,7 @@
 #include <vector>
 #include <Eigen/Core>
 #include "NNIParam.h"
+#include <igl/AABB.h>
 
 namespace NNIpp {
 
@@ -61,6 +62,18 @@ namespace NNIpp {
       // #E by 2 matrix. Holds the edge connectivity list of the extended
       // Delaunay triangulation
       Eigen::Matrix<int, Eigen::Dynamic, 2> m_Edges;
+
+      // #E by 2 list of facets, such that m_OrientedEdges.row(f+#F*c)
+      // is the edge opposite F(f,c)
+      Eigen::Matrix<int, Eigen::Dynamic, 2> m_OrientedEdges;
+
+      // #F by 3 face adjacency list. m_FaceNeighbors(i,j) is the ID of
+      // the face adjacent to the jth edge of face i, i.e. the face
+      // opposite vertex j
+      Eigen::Matrix<int, Eigen::Dynamic, 3> m_FaceNeighbors;
+
+      // An AABB tree. Used to determine which mesh face contains a query point
+      igl::AABB<Matrix, 2> m_Tree;
 
       // #F by 3 matrix. Holds the x-coordinates of each vertex in each face
       // of the extended triangulation
@@ -123,6 +136,7 @@ namespace NNIpp {
       NaturalNeighborInterpolant( const Vector &Xp, const Vector &Yp,
           const Matrix &Vp, const NNIParam<Scalar> &param );
 
+      ///
       /// Interpolate function at a set of query points using Sibson's
       /// C^1 continuous method for scattered data interpolation
       ///
@@ -137,6 +151,7 @@ namespace NNIpp {
       ///
       void operator()( const Vector &Xq, const Vector &Yq, Matrix &Fq );
 
+      ///
       /// Interpolate function at a set of query points using Sibson's
       /// C^1 continuous method for scattered data interpolation.
       /// Also evaluate analytic function gradients
@@ -195,6 +210,7 @@ namespace NNIpp {
       ///   uVC     #Q by 1 vector. Each entry is another a matrix whose row
       ///           entries define the counter-clockwise ordered vertices of
       ///           the virtual Voronoi cell of the corresponding query point
+      ///           shifted so that the query point is at the origin
       ///   uA      #Q by 1 list of the areas of the virtual Voronoi cells
       ///           of each query point
       ///
@@ -202,22 +218,6 @@ namespace NNIpp {
           std::vector<Vector> &u, std::vector<Eigen::VectorXi> &uIDx,
           std::vector<Eigen::Matrix<Scalar, Eigen::Dynamic, 2> > &uVC,
           Vector &uA );
-
-      ///
-      /// Calculate the 'Gamma' parameter from (Hiyoshi, 2008). Used to
-      /// calculate the natural neighbor coordinates of a query point
-      /// Gamma(v1, v2, v3, v4) does not have a simple geometric interpretation
-      ///
-      /// Inputs:
-      ///
-      ///   X   X-coordinate of query point
-      ///   Y   Y-coordinate of query point
-      ///
-      /// Outputs:
-      ///
-      ///   G   #F by 1 list of 'Gamma' values
-      ///
-      NNI_INLINE void gamma( const Scalar X, const Scalar Y, ArrayVec &G );
 
     private:
 
@@ -266,6 +266,57 @@ namespace NNIpp {
       /// parameter on each face of the extended triangulation
       ///
       NNI_INLINE void precomputeGamma();
+
+    public:
+
+      ///
+      /// Calculate the 'Gamma' parameter from (Hiyoshi, 2008). Used to
+      /// calculate the natural neighbor coordinates of a query point
+      /// Gamma(v1, v2, v3, v4) does not have a simple geometric interpretation
+      ///
+      /// Inputs:
+      ///
+      ///   X   X-coordinate of query point
+      ///   Y   Y-coordinate of query point
+      ///
+      /// Outputs:
+      ///
+      ///   G   #F by 1 list of 'Gamma' values
+      ///
+      NNI_INLINE void gamma( const Scalar X, const Scalar Y, ArrayVec &G );
+
+      ///
+      /// Determine if a query point lies within the circumcircle of a face
+      /// of the extended triangulation
+      ///
+      /// Inputs:
+      ///
+      ///   Xq    X-coordinate of query point
+      ///   Yq    Y-coordinate of query point
+      ///   FID   The ID of the face being checked
+      ///
+      /// Outputs:
+      ///
+      ///   in    True if (Xq,Yq) lies within the circumcircle
+      ///
+      NNI_INLINE bool inCircle( const Scalar Xq, const Scalar Yq, const int FID );
+
+      ///
+      /// Determine whether each point in a list of query points lies within
+      /// the faces of the extended triangulation
+      ///
+      /// Inputs:
+      ///
+      ///   X   #Q by 1 list of query point x-coordinates
+      ///   Y   #Q by 1 list of query point y-coordinates
+      ///
+      /// Outputs:
+      ///
+      ///   I   #Q by 1 list of indices into the face connectivity list
+      ///       of the first containing element (-1 means no containing
+      ///       element)
+      ///
+      NNI_INLINE void inElement( const Vector &Xq, const Vector &Yq, Eigen::VectorXi &I );
 
   };
 

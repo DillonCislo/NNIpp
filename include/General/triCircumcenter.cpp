@@ -31,10 +31,6 @@ NNI_INLINE void NNIpp::triCircumcenter(
 
   typedef Eigen::Array<Scalar, Eigen::Dynamic, 1> Vector;
 
-  // Check that the input arguments are properly sized
-  assert( (X.rows() == Y.rows()) && (X.cols() == Y.cols()) );
-  assert( (X.rows() == CC.rows()) && (X.cols() == CC.cols()) );
-
   // Extract the x-coordinates of each vertex
   Vector x1 = X.col(0).array();
   Vector x2 = X.col(1).array();
@@ -84,6 +80,56 @@ NNI_INLINE void NNIpp::triCircumcenter(
 
   // Format output
   CC = CCArr.matrix();
+
+};
+
+///
+/// Extract the circumcircle of a single planar triangle
+///
+template <typename Scalar>
+NNI_INLINE Eigen::Matrix<Scalar, 1, 2> NNIpp::triCircumcenter(
+    const Scalar x1, const Scalar y1,
+    const Scalar x2, const Scalar y2,
+    const Scalar x3, const Scalar y3 ) {
+
+  // Cache some variables to avoid duplicate computations
+  Scalar y12 = y2-y1;
+  Scalar y31 = y1-y3;
+  Scalar y23 = y3-y2;
+
+  Scalar y12_P = y2+y1;
+  Scalar y31_P = y1+y3;
+  Scalar y23_P = y3+y2;
+
+  Scalar y123 = y12 * y23 * y31;
+
+  Scalar x1S = x1 * x1;
+  Scalar x2S = x2 * x2;
+  Scalar x3S = x3 * x3;
+
+  Scalar x12S = x2S - x1S;
+  Scalar x23S = x3S - x2S;
+  Scalar x31S = x1S - x3S;
+
+  Scalar x3y12 = x3 * y12;
+  Scalar x2y31 = x2 * y31;
+  Scalar x1y23 = x1 * y23;
+
+  // The numerator for the x-coordinates
+  Scalar xNum = x3 * x3y12 + x2 * x2y31 + x1 * x1y23 - y123;
+
+  // The numerator for the y-coordinates
+  Scalar yNum = x3 * x12S + x2 * x31S + x1 * x23S +
+                x3y12 * y12_P + x2y31 * y31_P + x1y23 * y23_P;
+
+  // The denominator for both coordinates
+  Scalar denom = Scalar(2.0) * ( x3y12 + x2y31 + x1y23 );
+
+  // Calculate circumcenter coordinates
+  Eigen::Matrix<Scalar, 1, 2> CC;
+  CC << (xNum / denom), (yNum / denom);
+
+  return CC;
 
 };
 

@@ -47,6 +47,32 @@ namespace NNIpp {
       const Eigen::Matrix<Scalar, Eigen::Dynamic, 3> &Y,
       Eigen::Matrix<Scalar, Eigen::Dynamic, 2> &CC );
 
+  ///
+  /// Calculate the circumcenter of a single planar triangle
+  ///
+  /// Templates:
+  ///
+  ///   Scalar    Input type of scattered data points, values, and gradients
+  ///
+  /// Inputs:
+  ///
+  ///   x1    X-coordinate of the 1st vertex
+  ///   y1    Y-coordinate of the 1st vertex
+  ///   x2    X-coordinate of the 2nd vertex
+  ///   y2    Y-coordinate of the 2nd vertex
+  ///   x3    X-coordinate of the 3rd vertex
+  ///   y3    Y-coordinate of the 3rd vertex
+  ///
+  /// Outputs:
+  ///
+  ///   CC    (X,Y)-coordinates of the triangle circumcenter
+  ///
+  template <typename Scalar>
+  NNI_INLINE Eigen::Matrix<Scalar, 1, 2> triCircumcenter(
+      const Scalar x1, const Scalar y1,
+      const Scalar x2, const Scalar y2,
+      const Scalar x3, const Scalar y3 );
+
 }
 
 #ifndef NNI_STATIC_LIBRARY

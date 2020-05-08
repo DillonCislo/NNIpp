@@ -41,7 +41,7 @@ namespace NNIpp {
   template <typename Scalar>
   class NaturalNeighborInterpolant {
 
-    public:
+    private:
 
       typedef Eigen::Matrix<Scalar, Eigen::Dynamic, 1> Vector;
       typedef Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> Matrix;
@@ -266,8 +266,6 @@ namespace NNIpp {
       /// parameter on each face of the extended triangulation
       ///
       NNI_INLINE void precomputeGamma();
-
-    public:
 
       ///
       /// Calculate the 'Gamma' parameter from (Hiyoshi, 2008). Used to

@@ -125,7 +125,7 @@ namespace NNIpp {
       ///
       /// Null constructor
       ///
-      NaturalNeighborInterpolant();
+      NaturalNeighborInterpolant() {};
 
       ///
       /// Default constructor

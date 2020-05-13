@@ -134,7 +134,7 @@ namespace NNIpp {
       ///
       /// Null constructor
       ///
-      NNIParam();
+      NNIParam() {};
 
       ///
       /// Constructor for interpolation parameter class

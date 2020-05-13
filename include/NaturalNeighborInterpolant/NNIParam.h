@@ -132,6 +132,11 @@ namespace NNIpp {
     public:
 
       ///
+      /// Null constructor
+      ///
+      NNIParam();
+
+      ///
       /// Constructor for interpolation parameter class
       ///
       NNIParam(int nPts, int nVals);

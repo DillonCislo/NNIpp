@@ -123,6 +123,11 @@ namespace NNIpp {
   public:
 
       ///
+      /// Null constructor
+      ///
+      NaturalNeighborInterpolant();
+
+      ///
       /// Default constructor
       ///
       /// Inputs:

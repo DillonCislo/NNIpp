@@ -30,10 +30,6 @@ NNI_INLINE void NNIpp::delta(
 
   typedef Eigen::Array<Scalar, Eigen::Dynamic, 1> Vector;
 
-  // Check that the input arguments are properly sized
-  assert( X.rows() == Y.rows() );
-  assert( X.rows() == D.rows() );
-
   // Extract the x-coordinates of each vertex
   Vector x1 = X.col(0).array();
   Vector x2 = X.col(1).array();

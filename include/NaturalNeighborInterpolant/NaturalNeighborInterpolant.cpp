@@ -25,6 +25,7 @@
 #include <algorithm>
 #include <cmath>
 #include <list>
+#include <omp.h>
 
 #include <igl/edges.h>
 #include <igl/adjacency_list.h>
@@ -475,7 +476,7 @@ NNI_INLINE void NNIpp::NaturalNeighborInterpolant<Scalar>::inElement(
   Eigen::MatrixXi tmpF = this->m_Faces;
   Eigen::Matrix<Scalar, 1, Eigen::Dynamic> Qrow(1, 2);
 
-#pragma omp parallel for if (numQ > 10000)
+  #pragma omp parallel for if (numQ > 10000)
   for( int i = 0; i < numQ; i++ ) {
 
     Qrow(0) = Xq(i);

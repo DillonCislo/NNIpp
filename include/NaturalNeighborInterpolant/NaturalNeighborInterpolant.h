@@ -154,7 +154,7 @@ namespace NNIpp {
       ///
       ///   Fq      #Q by #V matrix of interpolated function values
       ///
-      void operator()( const Vector &Xq, const Vector &Yq, Matrix &Fq );
+      void operator()( const Vector &Xq, const Vector &Yq, Matrix &Fq ) const;
 
       ///
       /// Interpolate function at a set of query points using Sibson's
@@ -173,7 +173,7 @@ namespace NNIpp {
       ///   DFy     #Q by #V matrix of y-derivatives of function values
       ///
       void operator()( const Vector &Xq, const Vector &Yq,
-          Matrix &Fq, Matrix &DFx, Matrix &DFy );
+          Matrix &Fq, Matrix &DFx, Matrix &DFy ) const;
 
       ///
       /// Calculate the natural neighbor coordinates of a set of query points
@@ -192,7 +192,7 @@ namespace NNIpp {
       ///           extended Delaunay triangulation
       ///
       void naturalNeighborCoordinates( const Vector &Xq, const Vector &Yq,
-          std::vector<Vector> &u, std::vector<Eigen::VectorXi> &uIDx );
+          std::vector<Vector> &u, std::vector<Eigen::VectorXi> &uIDx ) const;
 
       ///
       /// Calculate the natural neighbor coordinates of a set of query points
@@ -222,7 +222,7 @@ namespace NNIpp {
       void naturalNeighborCoordinates( const Vector &Xq, const Vector &Yq,
           std::vector<Vector> &u, std::vector<Eigen::VectorXi> &uIDx,
           std::vector<Eigen::Matrix<Scalar, Eigen::Dynamic, 2> > &uVC,
-          Vector &uA );
+          Vector &uA ) const;
 
     private:
 
@@ -286,7 +286,7 @@ namespace NNIpp {
       ///
       ///   G   #F by 1 list of 'Gamma' values
       ///
-      NNI_INLINE void gamma( const Scalar X, const Scalar Y, ArrayVec &G );
+      NNI_INLINE void gamma( const Scalar X, const Scalar Y, ArrayVec &G ) const;
 
       ///
       /// Determine if a query point lies within the circumcircle of a face
@@ -302,7 +302,7 @@ namespace NNIpp {
       ///
       ///   in    True if (Xq,Yq) lies within the circumcircle
       ///
-      NNI_INLINE bool inCircle( const Scalar Xq, const Scalar Yq, const int FID );
+      NNI_INLINE bool inCircle( const Scalar Xq, const Scalar Yq, const int FID ) const;
 
       ///
       /// Determine whether each point in a list of query points lies within
@@ -319,7 +319,8 @@ namespace NNIpp {
       ///       of the first containing element (-1 means no containing
       ///       element)
       ///
-      NNI_INLINE void inElement( const Vector &Xq, const Vector &Yq, Eigen::VectorXi &I );
+      NNI_INLINE void inElement(
+          const Vector &Xq, const Vector &Yq, Eigen::VectorXi &I ) const;
 
   };
 

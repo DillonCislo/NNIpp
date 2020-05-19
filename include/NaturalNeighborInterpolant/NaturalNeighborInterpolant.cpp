@@ -422,7 +422,7 @@ NNI_INLINE void NNIpp::NaturalNeighborInterpolant<Scalar>::precomputeGamma() {
 ///
 template <typename Scalar>
 NNI_INLINE void NNIpp::NaturalNeighborInterpolant<Scalar>::gamma(
-    const Scalar X, const Scalar Y, ArrayVec &G ) {
+    const Scalar X, const Scalar Y, ArrayVec &G ) const {
 
   int numF = this->m_Faces.rows();
 
@@ -442,7 +442,7 @@ NNI_INLINE void NNIpp::NaturalNeighborInterpolant<Scalar>::gamma(
 ///
 template <typename Scalar>
 NNI_INLINE bool NNIpp::NaturalNeighborInterpolant<Scalar>::inCircle(
-    const Scalar Xq, const Scalar Yq, const int FID ) {
+    const Scalar Xq, const Scalar Yq, const int FID ) const {
 
   Scalar gamma = this->m_fGamma(FID, 0) +
     this->m_fGamma(FID, 1) * Xq +
@@ -463,7 +463,7 @@ NNI_INLINE bool NNIpp::NaturalNeighborInterpolant<Scalar>::inCircle(
 ///
 template <typename Scalar>
 NNI_INLINE void NNIpp::NaturalNeighborInterpolant<Scalar>::inElement(
-    const Vector &Xq, const Vector &Yq, Eigen::VectorXi &I ) {
+    const Vector &Xq, const Vector &Yq, Eigen::VectorXi &I ) const {
 
   // The number of query points
   const int numQ = Xq.size();
@@ -507,7 +507,7 @@ void NNIpp::NaturalNeighborInterpolant<Scalar>::naturalNeighborCoordinates(
     const Vector &Xq, const Vector &Yq,
     std::vector<Vector> &u, std::vector<Eigen::VectorXi> &uIDx,
     std::vector<Eigen::Matrix<Scalar, Eigen::Dynamic, 2> > &uVC,
-    Vector &uA ) {
+    Vector &uA ) const {
 
   typedef Eigen::Array<bool, Eigen::Dynamic, 1> VectorXb;
   typedef Eigen::Matrix<Scalar, 1, 2> RowVec2d;
@@ -805,7 +805,7 @@ void NNIpp::NaturalNeighborInterpolant<Scalar>::naturalNeighborCoordinates(
 ///
 template <typename Scalar>
 void NNIpp::NaturalNeighborInterpolant<Scalar>::operator()(
-    const Vector &Xq, const Vector &Yq, Matrix &Fq ) {
+    const Vector &Xq, const Vector &Yq, Matrix &Fq ) const {
 
   typedef Eigen::Matrix<Scalar, 1, 2> RowVec2d;
   typedef Eigen::Array<Scalar, Eigen::Dynamic, 1> ArrayVec;
@@ -910,7 +910,7 @@ void NNIpp::NaturalNeighborInterpolant<Scalar>::operator()(
 template <typename Scalar>
 void NNIpp::NaturalNeighborInterpolant<Scalar>::operator()(
     const Vector &Xq, const Vector &Yq,
-    Matrix &Fq, Matrix &DFx, Matrix &DFy ) {
+    Matrix &Fq, Matrix &DFx, Matrix &DFy ) const {
 
   typedef Eigen::Array<Scalar, 1, 2> RowVec2d;
   typedef Eigen::Array<Scalar, Eigen::Dynamic, 1> ArrayVec;

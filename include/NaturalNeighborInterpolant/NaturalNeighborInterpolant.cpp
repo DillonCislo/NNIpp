@@ -474,11 +474,11 @@ NNI_INLINE void NNIpp::NaturalNeighborInterpolant<Scalar>::inElement(
   // poor templating in the 'AABB' class implemented in libigl
   Matrix tmpP = this->m_Points;
   Eigen::MatrixXi tmpF = this->m_Faces;
-  Eigen::Matrix<Scalar, 1, Eigen::Dynamic> Qrow(1, 2);
 
   #pragma omp parallel for if (numQ > 10000)
   for( int i = 0; i < numQ; i++ ) {
 
+    Eigen::Matrix<Scalar, 1, Eigen::Dynamic> Qrow(1,2);
     Qrow(0) = Xq(i);
     Qrow(1) = Yq(i);
 
@@ -563,6 +563,8 @@ void NNIpp::NaturalNeighborInterpolant<Scalar>::naturalNeighborCoordinates(
       uIDx[i] = Eigen::VectorXi::Constant(1, 1, minID);
       uVC[i] = Eigen::Matrix<Scalar, Eigen::Dynamic, 2>::Constant(1, 2, Scalar(0.0));
       uA(i) = Scalar(0.0);
+
+      continue;
 
     }
 

@@ -490,6 +490,13 @@ NNI_INLINE void NNIpp::NaturalNeighborInterpolant<Scalar>::inElement(
 
   }
 
+  // Check for out-of-bounds query points
+  for( int i = 0; i < numQ; i++ ) {
+    if (I(i) == -1) {
+      throw std::runtime_error("Query points lie outside convex hull of control points!");
+    }
+  }
+
 };
 
 // ======================================================================================
@@ -526,12 +533,15 @@ void NNIpp::NaturalNeighborInterpolant<Scalar>::naturalNeighborCoordinates(
     // The face containing the current query point
     int seedFace =  inFace(i);
 
+    /*
     // Check whether the current query point lies within the convex hull of the
     // extended triangulation
     if ( seedFace == -1 ) {
+      std::cout << "seedFace Check" << std::endl;
       std::runtime_error(
           "Query points lie outside convex hull of control points!");
     }
+    */
 
     //-----------------------------------------------------------------------------------
     // Handle the case that a query point is equal to a control point

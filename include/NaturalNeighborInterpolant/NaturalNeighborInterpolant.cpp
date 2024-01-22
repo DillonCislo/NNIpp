@@ -55,7 +55,7 @@ NNIpp::NaturalNeighborInterpolant<Scalar>::NaturalNeighborInterpolant(
     const Vector &Xp, const Vector &Yp,
     const Matrix &Vp, const NNIParam<Scalar> &param ) {
 
-  // Checck for valid parameters
+  // Check for valid parameters
   param.checkParam();
 
   // Set display parameters
@@ -63,8 +63,8 @@ NNIpp::NaturalNeighborInterpolant<Scalar>::NaturalNeighborInterpolant(
   this->m_dispInterp = param.dispInterp;
 
   // Generate the ghost points for extrapolation
-  Vector GPx;
-  Vector GPy;
+  Vector GPx = Vector::Zero(param.GPn, 1);
+  Vector GPy = Vector::Zero(param.GPn, 1);
   this->generateGhostPoints( Xp, Yp, param, GPx, GPy );
 
   // Combine data points and ghost points into the extended points list
@@ -73,7 +73,7 @@ NNIpp::NaturalNeighborInterpolant<Scalar>::NaturalNeighborInterpolant(
     Eigen::Matrix<Scalar, Eigen::Dynamic, 2>::Zero( numAllPoints, 2 );
   this->m_Points.col(0) << Xp, GPx;
   this->m_Points.col(1) << Yp, GPy;
-  
+
   // Construct the extended triangulation
   Vector Px = this->m_Points.col(0);
   Vector Py = this->m_Points.col(1);
@@ -186,11 +186,8 @@ NNI_INLINE void NNIpp::NaturalNeighborInterpolant<Scalar>::generateGhostPoints(
   Eigen::Array<bool, Eigen::Dynamic, 1> inPoly(GPn, 1);
   NNIpp::inPolygon( GPCH, Xp, Yp, inPoly );
 
-  for( int i = 0; i < GPn; i++ ) {
-    if (!inPoly(i)) {
-      std::runtime_error("Invalid ghost point convex hull");
-    }
-  }
+  if ( !inPoly.array().all() )
+    std::runtime_error("Invalid ghost point convex hull");
 
 };
 

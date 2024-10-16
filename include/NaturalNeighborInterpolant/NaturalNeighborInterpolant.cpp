@@ -308,10 +308,17 @@ NNI_INLINE void NNIpp::NaturalNeighborInterpolant<Scalar>::ghostPointValueHandli
     std::vector<int> curVA = VA[i];
 
     // Remove other ghost points from consideration
+    curVA.erase(
+      std::remove_if(curVA.begin(), curVA.end(),
+        [numPoints](int idx) { return idx >= numPoints; }),
+      curVA.end());
+
+    /* OLD CODE (deprecated in C++11 and removed in C++17)
     std::vector<int>::iterator it;
     it = std::remove_if( curVA.begin(), curVA.end(),
         std::bind2nd( std::greater<int>(), (numPoints-1) ) );
     curVA.erase( it, curVA.end() );
+    */
 
     // The number of non-ghost points attached to the current ghost point
     int numVA = curVA.size();

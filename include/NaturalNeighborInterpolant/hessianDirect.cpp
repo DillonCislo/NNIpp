@@ -74,10 +74,18 @@ NNI_INLINE void NNIpp::hessianDirect(
     std::vector<int> curNN = NN[i];
 
     // Remove ghost points from consideration
+    curNN.erase(
+      std::remove_if(curNN.begin(), curNN.end(),
+        [numPoints](int idx) { return idx >= numPoints; }),
+      curNN.end()
+    );
+
+    /* OLD CODE (deprecated in C++11 and removed in C++17)
     std::vector<int>::iterator it;
     it = std::remove_if( curNN.begin(), curNN.end(),
         std::bind2nd( std::greater<int>(), (numPoints-1) ) );
     curNN.erase( it, curNN.end() );
+    */
 
     // The number of natural neighbors for the current point
     int numNN = curNN.size();

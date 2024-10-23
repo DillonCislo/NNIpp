@@ -33,3 +33,9 @@
 
 # Swap files
 *.swp
+*.asv
+
+# MATLAB mex files
+*.mexa64
+*.mexmaci64
+*.mexw64

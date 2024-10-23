@@ -53,7 +53,7 @@ else
     verbose = compilationOptions.verbose;
 end
 
-[projectDir, ~, ~] = fileparts(matlab.desktop.editor.getActiveFilename);
+[projectDir, ~, ~] = fileparts(mfilename('fullpath'));
 cd(projectDir);
 
 % Compilation options

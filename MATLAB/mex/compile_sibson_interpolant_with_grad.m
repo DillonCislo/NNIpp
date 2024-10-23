@@ -53,11 +53,6 @@ else
     verbose = compilationOptions.verbose;
 end
 
-% Clear command window if verbose is true
-if verbose
-    clc;
-end
-
 [projectDir, ~, ~] = fileparts(matlab.desktop.editor.getActiveFilename);
 cd(projectDir);
 

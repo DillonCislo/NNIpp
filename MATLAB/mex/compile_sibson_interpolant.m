@@ -1,6 +1,9 @@
 function compile_sibson_interpolant(compilationOptions)
 
 % Validate input: Check if required fields exist in the struct
+if (nargin < 1)
+    compilationOptions = struct();
+end
 
 % Eigen directory (required), e.g. '/usr/local/include/eigen-3.4.0'
 if ~isfield(compilationOptions, 'eigenDir') || isempty(compilationOptions.eigenDir)
